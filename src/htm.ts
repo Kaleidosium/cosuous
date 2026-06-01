@@ -86,7 +86,7 @@ const evaluate = (h: HFn, built: Built, fields: Fields, args: unknown[]): unknow
       if (parts) {
         parts.push(value);
       } else {
-        // Force the new value to string FIRST, then concat - matches the
+        // Force the new value to string FIRST, then concat; matches the
         // original `args[1][key] += value + ""` precedence so number + number
         // stays string-concatenation, not numeric addition.
         argsObj[key] = (argsObj[key] as string) + (value + "");

@@ -5,7 +5,7 @@
  * clone time.
  *
  * Use this when the same shape renders many times and the reactive
- * cost of `h` per item is observable - the reconciler in
+ * cost of `h` per item is observable; the reconciler in
  * `cosuous/map` pairs well with it.
  *
  * @example
@@ -28,7 +28,19 @@ import type { TemplateAction } from "./h.ts";
  * the target element, the prop name (for prop slots) or end-mark node
  * (for content slots).
  */
-export type TagContext = { el: Node; name?: string | null; endMark?: Node | null };
+export interface TagContext {
+  /** The target element the tag binds against. */
+  el: Node;
+  /** Prop name for a prop slot, absent/null for a content slot. */
+  name?: string | null;
+  /** End-mark node for a content slot, absent/null for a prop slot. */
+  endMark?: Node | null;
+}
+
+// Internal DOM extension: templates stash the slot's last-inserted value on the
+// endMark (or element) node so the next clone can diff against it. Mirrors the
+// `NodeWithListeners` augmentation pattern in src/h.ts.
+type NodeWithCurrent = Node & { _current?: unknown };
 
 /**
  * Template tag returned by `t` / `s`. The runtime invokes it via
@@ -90,20 +102,20 @@ export function t(key: string, observed?: boolean, bind?: boolean): TemplateTag 
     ): void => {
       if (propName == null) {
         // Store state on the unique endMark per action.
-        const state = (endMark || element) as Node & { _current?: unknown };
+        const state = (endMark || element) as NodeWithCurrent;
 
         // Performance optimization for when the tag is the only content child.
         // Default current value to empty string which makes a text insert faster.
         if (
           endMark &&
-          (endMark as Node & { _current?: unknown })._current === undefined &&
+          (endMark as NodeWithCurrent)._current === undefined &&
           element.firstChild === element.lastChild &&
           element.firstChild === endMark
         ) {
-          (endMark as Node & { _current?: unknown })._current = "";
+          (endMark as NodeWithCurrent)._current = "";
         }
 
-        state._current = api.insert(element, value, endMark, state._current as unknown);
+        state._current = api.insert(element, value, endMark, state._current);
       } else {
         api.property(element, value, propName);
       }
@@ -133,7 +145,7 @@ export function t(key: string, observed?: boolean, bind?: boolean): TemplateTag 
  * any `t` / `s` calls inside it are recorded by reference and rebound
  * against `props` at clone time.
  *
- * Pass `noClone: true` to bind in place rather than cloning - useful
+ * Pass `noClone: true` to bind in place rather than cloning; useful
  * when the template is the only consumer of the underlying fragment.
  *
  * @example
@@ -175,7 +187,7 @@ export function template(elementRef: () => Node, noClone?: boolean): CloneFuncti
 
   const create = function (props: Record<string, unknown>, forceNoClone?: boolean): Node {
     // Explicit check for a boolean here, this fn tends to be used in Array.map.
-    if (forceNoClone === false || forceNoClone === true) noClone = forceNoClone;
+    if (typeof forceNoClone === "boolean") noClone = forceNoClone;
 
     const keyedActions: Record<string, Array<(value: unknown) => void>> = {};
     let root: Node;

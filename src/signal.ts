@@ -14,7 +14,7 @@
  *
  * `effectScope` and `onCleanup` remain available as the lower-level
  * primitives consumed by `src/map.ts` to cascade teardown through the
- * scope graph - alien-signals' native cleanup fires only on
+ * scope graph: alien-signals' native cleanup fires only on
  * self-dispose, not when an ancestor scope tears a node down via the
  * graph.
  *
@@ -71,9 +71,11 @@ export interface Computed<T> {
  * - `signal<T>()` returns a `Signal<T | undefined>` that starts unset.
  * - `signal(initialValue)` returns a `Signal<T>` typed from the value.
  *
- * Re-exported from alien-signals under cosuous's preferred shape -
+ * Re-exported from alien-signals under cosuous's preferred shape:
  * the runtime is alien-signals, but the public type matches the
- * preact-signals overload pair.
+ * preact-signals overload pair. The overload literal is written inline
+ * (not extracted to a named interface) so the public `signal` type does
+ * not reference a private type; see `deno doc --lint`'s private-type-ref.
  */
 export const signal: {
   <T>(): Signal<T | undefined>;

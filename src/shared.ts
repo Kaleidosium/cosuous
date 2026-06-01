@@ -16,7 +16,7 @@ export type ElementChild =
   | null
   | undefined;
 
-/** One {@link ElementChild} or an array of them - the variadic child shape. */
+/** One {@link ElementChild} or an array of them: the variadic child shape. */
 export type ElementChildren = ElementChild[] | ElementChild;
 
 /**
@@ -26,6 +26,6 @@ export type ElementChildren = ElementChild[] | ElementChild;
 export interface FunctionComponent {
   /** Render with a props object and variadic children. */
   (props: object, ...children: ElementChildren[]): Node;
-  /** Render with children only - no props. */
+  /** Render with children only (no props). */
   (...children: ElementChildren[]): Node;
 }

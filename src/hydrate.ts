@@ -73,7 +73,7 @@ export const d: DTreeify = context();
 export const ds: DTreeify = context(true);
 
 /**
- * Tagged-template form of {@link d} - same role, but takes a template
+ * Tagged-template form of {@link d}: same role, but takes a template
  * literal instead of nested calls. Not tree-shakeable from the
  * declaration; the function form preserves the binding so consumers
  * can drop unused entries during bundling.
@@ -229,7 +229,7 @@ export function hydrate(delta: VNode, root?: Node): Node | undefined {
     } else if (el) {
       let target: (Node & { data?: string; _noskip?: boolean }) | undefined =
         filterChildNodes(el)[el._index!];
-      let current: string | unknown | undefined;
+      let current: unknown;
       let prefix: string | undefined;
 
       const updateText = (text: string): void => {

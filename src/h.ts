@@ -6,7 +6,7 @@
  * shared {@link HyperscriptApi} surface (`api`).
  *
  * Most consumers should import from the package root (`cosuous`) rather
- * than this module - the root entry wires `api.effect` / `api.isSignal`
+ * than this module: the root entry wires `api.effect` / `api.isSignal`
  * / `api.isComputed` from `./signal.ts` and adds the SVG-mode `hs`
  * wrapper. Importing `cosuous/h` directly gets the un-delegated `h`
  * implementation, which is useful for ahead-of-time tools but skips
@@ -59,9 +59,9 @@ export type Value = Node | DocumentFragment | string | number;
  * tagged template emit:
  *
  * 1. Element by tag name, optional props, optional children.
- * 2. Component (a function), optional props, optional children -
+ * 2. Component (a function), optional props, optional children;
  *    returns whatever the component returns.
- * 3. Fragment - first arg is an array (typically `[]`), remaining args
+ * 3. Fragment: first arg is an array (typically `[]`), remaining args
  *    are appended as children, returns a `DocumentFragment`.
  */
 export interface Hyperscript {
@@ -91,7 +91,7 @@ export interface Hyperscript {
  * Declared as a single interface so cross-module assignments stay typed.
  */
 export interface HyperscriptApi {
-  /** Build an HTML element / component / fragment - the main hyperscript call. */
+  /** Build an HTML element / component / fragment: the main hyperscript call. */
   h: Hyperscript;
   /** SVG-mode variant of {@link h}. */
   hs: Hyperscript;
@@ -169,7 +169,7 @@ export interface TemplateAction {
  * `h` / `insert` / `property` / `add` / `rm`; `index.ts` assigns
  * `effect` / `isSignal` / `isComputed` and the SVG-mode `hs` wrapper;
  * `template.ts` assigns `action` if it's imported. Empty at the
- * declaration site - the cast names the contract callers can rely on
+ * declaration site; the cast names the contract callers can rely on
  * once `index.ts` has run.
  *
  * Monkey-patching `api.h` (or any other field) at runtime is the
@@ -219,7 +219,7 @@ export const add = (parent: Node, value: Value | Value[], endMark?: Node | null)
   const fragOrNode = frag(node) || node;
 
   // If endMark is `null`, value will be added to the end of the list.
-  parent.insertBefore(node, (endMark && endMark.parentNode && endMark) || null);
+  parent.insertBefore(node, endMark?.parentNode ? endMark : null);
   return fragOrNode;
 };
 
@@ -234,7 +234,6 @@ const insertString = (
     if (endMark) api.add(el, value, endMark);
     else el.textContent = value;
   } else if (endMark) {
-    (endMark.previousSibling || el.lastChild) as Text & { data: string };
     const target = (endMark.previousSibling || el.lastChild) as Text;
     target.data = value;
   } else {
@@ -370,7 +369,10 @@ export const property = (
     api.effect(() => {
       api.property(
         el,
-        (value as (this: { el: Node; name: string }) => unknown).call({ el, name: name! }),
+        (value as (this: { el: Node; name: string }) => unknown).call({
+          el,
+          name: name!,
+        }),
         name,
         isAttr,
         isCss,
@@ -474,7 +476,7 @@ export function h(...args: unknown[]): HTMLElement | SVGElement | DocumentFragme
       api.property(el!, rest, null, api.isSvg);
     } else if (typeof arg === "function") {
       if (el) {
-        // See note in add.js#frag() - This is a Text('') node
+        // See note in add.js#frag(). This is a Text('') node
         const endMark = api.add(el, "") as Text;
         api.insert(el, arg, endMark);
       } else {

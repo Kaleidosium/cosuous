@@ -380,7 +380,7 @@ export namespace JSXInternal {
   /** `WheelEvent` with `currentTarget` narrowed to `Target`. */
   export type TargetedWheelEvent<Target extends EventTarget> = TargetedEvent<Target, WheelEvent>;
 
-  /** Callable shape for event handlers - one argument (the event), void return. */
+  /** Callable shape for event handlers: one argument (the event), void return. */
   export interface EventHandler<E extends TargetedEvent> {
     /** Invoke the handler with the dispatched event. */
     (event: E): void;
