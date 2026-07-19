@@ -1,0 +1,31 @@
+@use "colors";
+
+.nav {
+  background: colors.$primary;
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 20px;
+
+  &-item,
+  &-title {
+    color: white;
+    text-decoration: none;
+    padding: 0 10px;
+
+    &.is-active {
+      text-decoration: underline;
+    }
+  }
+
+  &-title {
+    display: inline-block;
+    font-size: 24px;
+    font-family: serif;
+    font-style: italic;
+    background: white;
+    color: colors.$primary;
+    padding: 4px 8px;
+    margin-right: 10px;
+  }
+}

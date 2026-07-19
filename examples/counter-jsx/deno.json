@@ -1,0 +1,19 @@
+{
+  "tasks": {
+    "dev": "deno run -A npm:vite",
+    "build": "deno run -A npm:vite build",
+    "preview": "deno run -A npm:vite preview",
+    "check": "deno check src/index.tsx"
+  },
+  "nodeModulesDir": "auto",
+  "imports": {
+    "cosuous": "jsr:@usagi-computer/cosuous@^0.1.5",
+    "vite": "npm:vite@^8"
+  },
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "lib": ["dom", "dom.iterable", "esnext"]
+  }
+}

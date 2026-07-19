@@ -1,0 +1,59 @@
+@use "colors";
+
+.story {
+  display: flex;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: dotted 1px #aaa;
+
+  &-index {
+    width: 60px;
+    color: #aaa;
+    font-size: 20px;
+    font-weight: 800;
+    text-align: right;
+    padding-right: 20px;
+  }
+
+  &-meta {
+    flex: 1;
+  }
+
+  &-title {
+    color: colors.$primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }    
+  }
+
+  &-by {
+    color: #888;
+    font-size: 12px;
+    padding-top: 5px;
+  }
+
+  &-comments {
+    width: 64px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 36px;
+    color: white;
+
+    cursor: pointer;
+
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
+
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23fff' d='M0 0h64v64H0z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M17 15c-6 0-11 5-11 11v10c0 6 5 11 11 11h19l9 9v-9h2c6 0 11-5 11-11V26c0-6-5-11-11-11H17z' fill='%23aaa'/%3E%3C/svg%3E");
+  }
+}

@@ -1,0 +1,46 @@
+@use "colors";
+
+.comments {
+  margin: 0 20px;
+  padding-bottom: 20px;
+  font-size: 13px;
+
+  .story-title {
+    font-size: 20px;
+    color: #444;
+  }
+
+  &-list &-list {
+    border-left: solid 2px colors.$primary;
+    padding-left: 20px;
+  }
+
+  &-item {
+    margin-top: 20px;
+  }
+
+  &-by {
+    display: inline-block;
+    color: #444;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &-time {
+    margin-left: 10px;
+    display: inline-block;
+    color: #aaa;
+  }
+
+  &-text {
+    line-height: 1.7;
+    padding-top: 5px;
+
+    a {
+      color: colors.$primary;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

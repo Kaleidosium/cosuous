@@ -1,0 +1,14 @@
+.date-input {
+}
+
+.date-input-position {
+  position: relative;
+}
+
+.date-input-popup {
+  position: absolute;
+  background: white;
+  padding: 8px;
+  border: solid #ccc 2px;
+  border-radius: 4px;
+}

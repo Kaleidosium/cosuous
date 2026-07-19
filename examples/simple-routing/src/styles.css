@@ -1,0 +1,16 @@
+body {
+  font-family: sans-serif;
+}
+
+.nav {
+  padding: 0;
+}
+
+.nav li {
+  display: inline-block;
+}
+
+.nav li + li::before {
+  content: "|";
+  margin: 0 8px;
+}
